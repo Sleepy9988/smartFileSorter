@@ -1,13 +1,14 @@
 import sys 
 from pathlib import Path
 from get_help import get_help
+from list_files import list_files
 
 cli_flags = {
     "-o": (True, "function placeholder"),
     "-h": (False, get_help),
     "-a": (True, get_help),
     "-m": (False, "function placeholder"),
-    "-l": (True, "function placeholder"),
+    "-l": (True, list_files),
 }
 
 def handle_user_prompt():
@@ -33,4 +34,4 @@ def handle_user_prompt():
     if cli_flags[flag][0] == False and len(prompt_args) > 2:
         raise ValueError(f"{flag} takes only one argument.")
 
-    cli_flags[flag][1]()
+    cli_flags[flag][1](path_obj)
