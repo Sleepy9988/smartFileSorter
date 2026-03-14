@@ -1,14 +1,13 @@
 import sys 
-from pathlib import Path
 from get_help import get_help
-from list_files import list_files
+from list_files import printFiles, validatePath
 
 cli_flags = {
     "-o": (True, "function placeholder"),
     "-h": (False, get_help),
     "-a": (True, get_help),
     "-m": (False, "function placeholder"),
-    "-l": (True, list_files),
+    "-l": (True, printFiles),
 }
 
 def handle_user_prompt():
@@ -26,12 +25,11 @@ def handle_user_prompt():
             raise ValueError("Missing directory path.")
     
         path = prompt_args[2]
-        path_obj = Path(path)
-
-        if not path_obj.exists():
+        pathObj = validatePath(path)
+        if pathObj == None:
             raise ValueError("The provided path does not exist. Please provide a valid path.")
     
     if cli_flags[flag][0] == False and len(prompt_args) > 2:
         raise ValueError(f"{flag} takes only one argument.")
 
-    cli_flags[flag][1](path_obj)
+    cli_flags[flag][1](pathObj)
