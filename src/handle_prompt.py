@@ -32,4 +32,4 @@ def handle_user_prompt():
     if cli_flags[flag][0] == False and len(prompt_args) > 2:
         raise ValueError(f"{flag} takes only one argument.")
 
-    cli_flags[flag][1](pathObj)
+    cli_flags[flag][1](pathObj, True)
