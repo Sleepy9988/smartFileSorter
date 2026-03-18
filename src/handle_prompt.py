@@ -1,6 +1,7 @@
 import sys 
 from get_help import get_help
-from list_files import printFiles, validatePath
+from validatePath import validatePath
+from generateResultString import printFiles
 
 cli_flags = {
     "-o": (True, "function placeholder"),
