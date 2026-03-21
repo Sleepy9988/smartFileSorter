@@ -1,0 +1,12 @@
+from recursiveDirIterator import iterateFileTree
+
+def findDupHashValues(pathObj, r):
+    files = iterateFileTree(pathObj, r)
+    hash_dict = {}
+    for file in files:
+        if file["hash"] not in hash_dict:
+            hash_dict[file["hash"]] = 0
+        hash_dict[file["hash"]] += 1
+
+    return_dict = {key: val for key, val in hash_dict.items() if val > 1}
+    return return_dict

@@ -1,4 +1,4 @@
-def createFileDict(pathObj, hash):
+def createFileList(pathObj, hash):
     fileDict = {
         "parent_dir": pathObj.parent,
         "isFile": pathObj.is_file(),

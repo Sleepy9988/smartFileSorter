@@ -1,14 +1,19 @@
 import sys 
 from get_help import get_help
 from validatePath import validatePath
-from generateResultString import printFiles
+from recursiveDirIterator import createFileTreeString, createEmptyDirString
+from runAnalyses import runAnalyses
+from compareHashValues import findDupHashValues
 
 cli_flags = {
-    "-o": (True, "function placeholder"),
+    "-l": (True, runAnalyses),
     "-h": (False, get_help),
-    "-a": (True, get_help),
+    "-b": (True, createEmptyDirString),
+    "-d": (True, findDupHashValues),
+    "-e": (False, "function placeholder"),
+    "-t": (True, createFileTreeString),
+    "-o": (False, "function placeholder"),
     "-m": (False, "function placeholder"),
-    "-l": (True, printFiles),
 }
 
 def handle_user_prompt():
@@ -33,4 +38,5 @@ def handle_user_prompt():
     if cli_flags[flag][0] == False and len(prompt_args) > 2:
         raise ValueError(f"{flag} takes only one argument.")
 
-    cli_flags[flag][1](pathObj, True)
+    result = cli_flags[flag][1](pathObj, True)
+    print(result)
