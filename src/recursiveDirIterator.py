@@ -9,7 +9,7 @@ def iterateFileTree(pathObj, r):
     for file in pathObj.iterdir():
         if file.is_file():
             hash = createHash(file)
-        fileList.extend(createFileList(file, hash))
+            fileList.extend(createFileList(file, hash))
         if file.is_dir() and r:
             result_files = iterateFileTree(file, r)
             fileList.extend(result_files)

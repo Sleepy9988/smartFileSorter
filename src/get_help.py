@@ -1,2 +1,2 @@
-def get_help():
+def get_help(*args):
     print("get_help called")
