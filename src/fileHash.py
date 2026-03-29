@@ -5,7 +5,7 @@ def createHash(file):
 
     sha256 = hashlib.sha256()
 
-    with open(file, 'rb') as f:
+    with open(str(file), 'rb') as f:
         while True:
             data = f.read(BUF_SIZE)
 

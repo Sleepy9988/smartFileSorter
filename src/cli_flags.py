@@ -4,6 +4,7 @@ from runAnalyses import runAnalyses
 from compareHashValues import createDuplicateString
 from organizeDir import parseDirectory
 from showCommands import show_commands
+from manageOrgDirs import showOrgaDirs
 
 cli_flags = {
     "-l": (True, runAnalyses, "Count the files and folders in the given directory."),
@@ -12,7 +13,6 @@ cli_flags = {
     "-d": (True, createDuplicateString, "Find identical files in the given directory."),
     "-t": (True, createFileTreeString, "Show the file tree of the given directory."),
     "-o": (True, parseDirectory, "Organize the files in the given directory into subfolders based on their extension."),
-    "-m": (False, "function placeholder", ""),
+    "-m": (False, showOrgaDirs, "Organize the logic of the folders corresponding file types."),
     "-c": (False, show_commands, "List the available commands."),
-
 }

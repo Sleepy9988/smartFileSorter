@@ -4,45 +4,62 @@ from groupFiles import groupFiles
 
 def iterateFileTree(pathObj, r):
     fileList = []
-    if not pathObj:
+    if not pathObj.exists():
         return []
-    for file in pathObj.iterdir():
-        if file.is_file():
-            hash = createHash(file)
-            fileList.extend(createFileList(file, hash))
-        if file.is_dir() and r:
-            result_files = iterateFileTree(file, r)
-            fileList.extend(result_files)
+    try:
+        for file in pathObj.iterdir():
+            if file.is_file():
+                try:
+                    hash = createHash(file)
+                except:
+                    hash = "HASH_FAILED"
+                    
+                fileList.extend(createFileList(file, hash))
+            if file.is_dir():
+                fileList.extend(createFileList(file, None))
+                if r:
+                    result_files = iterateFileTree(file, r)
+                    fileList.extend(result_files)
+    except PermissionError:
+        return []
     return fileList
 
 
 def findEmptyDirs(pathObj, r):
     emptyDir = []
     is_empty = True
-    if not pathObj:
+    if not pathObj.exists():
         return []
-    for el in pathObj.iterdir():
-        is_empty = False
-        if el.is_dir() and r:
-            result_empties = findEmptyDirs(el, r)
-            emptyDir.extend(result_empties)
-    if is_empty == True:
-        emptyDir.append(pathObj)
+    try:
+        for el in pathObj.iterdir():
+            if el.is_file():
+                is_empty = False
+            elif el.is_dir() and r:
+                result_empties = findEmptyDirs(el, r)
+                emptyDir.extend(result_empties)
+                if el not in result_empties:
+                    is_empty = False
+            elif el.is_dir() and not r:
+                is_empty = False
+        if is_empty:
+            emptyDir.append(pathObj)
+    except PermissionError:
+        return []
     return emptyDir
 
 
 def createFileTreeString(pathObj, r):
     files = iterateFileTree(pathObj, r)
     grouped_files = groupFiles(files)
-    root_indent = getIndentLevel(files[0]["parent_dir"])
+    root_indent = getIndentLevel(pathObj)
 
     return_str = "File Tree:\n\n"
     for k,v in grouped_files.items():
         indent = (getIndentLevel(k) - root_indent) * "--"
         return_str += f"{indent}{k}\n"
         for el in v:
-            if el["isFile"]:
-                return_str += f'{indent + "--"}{el["fullname"]}\n'
+            return_str += f'{indent + "--"}{el["fullname"]}\n'
+
     return return_str
 
 def createEmptyDirString(pathObj, r):
@@ -58,6 +75,5 @@ def createEmptyDirString(pathObj, r):
     return return_str
 
 
-def getIndentLevel(path):
-    parent_parts = str(path).split("/")
-    return len(parent_parts)
+def getIndentLevel(pathObj):
+    return len(pathObj.parts)
