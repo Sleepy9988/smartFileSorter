@@ -1,0 +1,10 @@
+{
+    "Documents": [".docx", ".doc", ".txt", ".pdf", ".md"],
+    "Spreadsheet": [".xls", ".xlsx", ".csv"],
+    "Executables": [".exe"],
+    "Zip": [".zip", ".rar"],
+    "Images": [".jpeg", ".png", ".jpg", ".svg"],
+    "Presentations": [".pptx", ".ppt"],
+    "Video": [".mp4"],
+    "Audio": [".wav", ".mp3", ".aac"]
+}

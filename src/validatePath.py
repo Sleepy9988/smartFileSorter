@@ -5,11 +5,3 @@ def validatePath(path):
     if path_obj.exists():
         return path_obj
     return None
-
-
-
-
-
-
-
-

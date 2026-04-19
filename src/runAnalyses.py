@@ -1,7 +1,7 @@
 from recursiveDirIterator import iterateFileTree
 
 def runAnalyses(pathObj, r):
-    files = iterateFileTree(pathObj, r)
+    files = iterateFileTree(pathObj, r, False)
     num_files = 0
     num_dirs = 0
     extension_dict = {}

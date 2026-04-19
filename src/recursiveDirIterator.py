@@ -2,27 +2,27 @@ from createFileDict import createFileList
 from fileHash import createHash
 from groupFiles import groupFiles
 
-def iterateFileTree(pathObj, r):
-    fileList = []
+def iterateFileTree(pathObj, r, h):
     if not pathObj.exists():
-        return []
+        return
     try:
         for file in pathObj.iterdir():
             if file.is_file():
-                try:
-                    hash = createHash(file)
-                except:
-                    hash = "HASH_FAILED"
-                    
-                fileList.extend(createFileList(file, hash))
-            if file.is_dir():
-                fileList.extend(createFileList(file, None))
+                file_hash = None
+                if h:
+                    try:
+                        file_hash = createHash(file)
+                    except Exception:
+                        file_hash = "HASH_FAILED"
+
+                yield from createFileList(file, file_hash)
+            elif file.is_dir():
+                yield from createFileList(file, None)
+
                 if r:
-                    result_files = iterateFileTree(file, r)
-                    fileList.extend(result_files)
+                    yield from iterateFileTree(file, r, h)
     except PermissionError:
-        return []
-    return fileList
+        return
 
 
 def findEmptyDirs(pathObj, r):
@@ -49,7 +49,7 @@ def findEmptyDirs(pathObj, r):
 
 
 def createFileTreeString(pathObj, r):
-    files = iterateFileTree(pathObj, r)
+    files = list(iterateFileTree(pathObj, r, False))
     grouped_files = groupFiles(files)
     root_indent = getIndentLevel(pathObj)
 

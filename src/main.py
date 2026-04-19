@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from handle_prompt import handle_user_prompt
 
 def main():

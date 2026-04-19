@@ -1,19 +1,16 @@
 from pathlib import Path
 from recursiveDirIterator import iterateFileTree
+import json 
 
-file_ext_map = {
-    "Documents": [".docx", ".doc", ".txt", ".pdf", ".md"],
-    "Spreadsheet": [".xls", ".xlsx", ".csv"],
-    "Executables": [".exe"],
-    "Zip": [".zip", ".rar"],
-    "Images": [".jpeg", ".png", ".jpg", ".svg"],
-    "Presentations": [".pptx", ".ppt"],
-    "Video": [".mp4"],
-    "Audio": [".wav", ".mp3", ".aac"]
-}
+def load_config():
+    config_path = Path(__name__).parent / "config.json"
+    with open(config_path, "r") as f:
+        return json.load(f)
+
 
 def parseDirectory(pathObj, r):
-    files = iterateFileTree(pathObj, False)
+    file_ext_map = load_config()
+    files = iterateFileTree(pathObj, r, False)
     counter = 0
     for file in files:
         if file["isFile"] == True:

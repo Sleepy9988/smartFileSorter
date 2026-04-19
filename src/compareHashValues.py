@@ -4,6 +4,8 @@ def findDupHashValues(files):
     hash_dict = {}
     for file in files:
         if file["hash"] not in hash_dict:
+            if file["hash"] == None or file["hash"] == "HASH_FAILED":
+                continue
             hash_dict[file["hash"]] = 0
         hash_dict[file["hash"]] += 1
     
@@ -11,7 +13,7 @@ def findDupHashValues(files):
     return duplicate_dict
 
 def createDuplicateString(pathObj, r):
-    files = iterateFileTree(pathObj, r)
+    files = iterateFileTree(pathObj, r, True)
     duplicates = findDupHashValues(files)
 
     total = 0
@@ -23,7 +25,3 @@ def createDuplicateString(pathObj, r):
         if file["hash"] in duplicates:
             return_str += f"{file["fullname"]} - {file["hash"]}\n"
     return return_str
-
-
-
-
