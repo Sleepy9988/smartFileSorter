@@ -3,7 +3,7 @@ from recursiveDirIterator import iterateFileTree
 import json 
 
 def load_config():
-    config_path = Path(__name__).parent / "config.json"
+    config_path = Path(__file__).parent / "config.json"
     with open(config_path, "r") as f:
         return json.load(f)
 
